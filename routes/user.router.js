@@ -28,7 +28,7 @@ router.post('/user', async (req, res) => {
     }
 });
 
-router.get('/user', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
     // 모든 회원 조회
     const users = await User.find({}, { _id: 0, __v: 0 }).sort({ userId: -1 });
 
@@ -48,10 +48,10 @@ router.get('/user', async (req, res, next) => {
     }));
 
     // 회원 전체 조회 응답
-    res.status(200).json(formattedUsers);
+    return res.status(200).json(formattedUsers);
 });
 
-router.get('/user/:userId', async (req, res, next) => {
+router.get('/:userId', async (req, res, next) => {
     const userId = req.params.userId;
     const user = await User.findOne({ userId: userId }, { _id: 0, __v: 0 });
 
@@ -60,7 +60,7 @@ router.get('/user/:userId', async (req, res, next) => {
         return res.status(404).json({ error: '회원을 찾을 수 없습니다.' });
     }
 
-    res.status(200).json(user);
+    return res.status(200).json(user);
 });
 
 router.delete('/user/:userId', async (req, res) => {
